@@ -1,0 +1,42 @@
+name: disallow_latest_tag
+policies:
+  -  ./policies/disallow_latest_tag.yaml
+  -  ./policies/disallow_no_host_ingress.yaml
+  -  ./policies/disallow_nodeport.yaml
+resources:
+  -  ./resources/resource.yaml
+  -  ./resources/ingress_host.yaml
+  -  ./resources/ingress_no_host.yaml
+  -  ./resources/latest_pod_nginx.yaml
+  -  ./resources/nodeport.yaml
+results:
+  - policy: disallow-latest-tag
+    rule: require-image-tag
+    resource: myapp-pod
+    kind: Pod
+    result: pass
+  - policy: disallow-latest-tag
+    rule: require-image-tag
+    resource: nginx-deployment
+    kind: Deployment
+    result: fail
+  - policy: disallow-latest-tag
+    rule: validate-image-tag
+    resource: myapp-pod
+    kind: Pod
+    result: pass
+  - policy: disallow-empty-ingress-host
+    rule: disallow-empty-ingress-host
+    resource: cafe-ingress
+    kind: Ingress
+    result: pass
+  - policy: disallow-empty-ingress-host
+    rule: disallow-empty-ingress-host
+    resource: minimal-ingress
+    kind: Ingress
+    result: fail
+  - policy: restrict-nodeport
+    rule: validate-nodeport
+    resource: my-service-node
+    kind: Service
+    result: fail
