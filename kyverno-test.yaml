@@ -3,13 +3,19 @@ policies:
   -  ./policies/disallow_latest_tag.yaml
   -  ./policies/disallow_no_host_ingress.yaml
   -  ./policies/disallow_nodeport.yaml
+  -  ./policies/disallow_privileged_containers.yaml
+  -  ./policies/disallow_privileged_escalation.yaml
+  -  ./policies/require_ro_rootfs.yaml
+  -  ./policies/require_run_asnonroot.yaml
 resources:
   -  ./resources/resource.yaml
   -  ./resources/ingress_host.yaml
   -  ./resources/ingress_no_host.yaml
   -  ./resources/latest_pod_nginx.yaml
   -  ./resources/nodeport.yaml
+  -  ./resources/resource_ro_rootfs.yaml
 results:
+#################### Disallow latest tag ####################
   - policy: disallow-latest-tag
     rule: require-image-tag
     resource: myapp-pod
@@ -25,6 +31,7 @@ results:
     resource: myapp-pod
     kind: Pod
     result: pass
+#################### Disallow ingress with empty host ####################
   - policy: disallow-empty-ingress-host
     rule: disallow-empty-ingress-host
     resource: cafe-ingress
@@ -35,8 +42,41 @@ results:
     resource: minimal-ingress
     kind: Ingress
     result: fail
+#################### Restrict nodeport service ####################
   - policy: restrict-nodeport
     rule: validate-nodeport
     resource: my-service-node
     kind: Service
+    result: fail
+######################################################
+#################### Pod security ####################
+######################################################
+#################### ReadOnly root filesystem ####################
+  - policy: require-ro-rootfs
+    rule: validate-readOnlyRootFilesystem
+    resource: myapp-pod
+    kind: Pod
+    result: fail
+  - policy: require-ro-rootfs
+    rule: validate-readOnlyRootFilesystem
+    resource: myapp-pod-ro-rootfs
+    kind: Pod
+    result: pass
+#################### Require runAsNonRoot ####################
+  - policy: require-run-as-nonroot
+    rule: run-as-non-root
+    resource: myapp-pod
+    kind: Pod
+    result: fail
+#################### Disallow Privileged Containers ####################
+  - policy: disallow-privileged-containers
+    rule: privileged-containers
+    resource: myapp-pod
+    kind: Pod
+    result: fail
+#################### Disallow Privilege Escalation ####################
+  - policy: disallow-privilege-escalation
+    rule: privilege-escalation
+    resource: myapp-pod
+    kind: Pod
     result: fail
