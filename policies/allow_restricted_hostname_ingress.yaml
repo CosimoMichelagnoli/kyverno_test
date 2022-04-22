@@ -1,0 +1,18 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: restricted-host-ingress
+spec:
+  validationFailureAction: enforce
+  rules:
+  - name: check-for-labels
+    match:
+      resources:
+        kinds:
+        - Ingress
+    validate:
+      message: "The host name must be in this form sxxxxxx.sandbox.crownlabs.polito.it."
+      pattern:
+        spec:
+          rules:
+          - host: "s*.sandbox.crownlabs.polito.it"
