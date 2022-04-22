@@ -6,7 +6,7 @@ metadata:
     nginx.org/rewrites: "serviceName=nginx-lb rewrite=/;serviceName=http-lb rewrite=/"
 spec:
   rules:
-  - host: cafe.example.com
+  - host: s000000.sandbox.crownlabs.polito.it
     http:
       paths:
       - path: /tea/
