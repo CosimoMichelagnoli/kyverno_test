@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sandbox-s123456
+  labels:
+    name: sandbox-s123456

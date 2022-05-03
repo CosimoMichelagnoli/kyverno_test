@@ -1,7 +1,8 @@
 apiVersion: kyverno.io/v1
-kind: ClusterPolicy
+kind: Policy
 metadata:
   name: disallow-privileged-containers
+  namespace: sandbox-s123456
   annotations:
     policies.kyverno.io/title: Disallow Privileged Containers
     policies.kyverno.io/category: Pod Security Standards (Baseline)
@@ -13,7 +14,7 @@ metadata:
       Privileged mode disables most security mechanisms and must not be allowed. This policy
       ensures Pods do not call for privileged mode.      
 spec:
-  validationFailureAction: audit
+  validationFailureAction: enforce
   background: true
   rules:
     - name: privileged-containers
