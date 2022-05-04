@@ -2,7 +2,6 @@ apiVersion: kyverno.io/v1
 kind: Policy
 metadata:
   name: disallow-privileged-containers
-  namespace: sandbox-s123456
   annotations:
     policies.kyverno.io/title: Disallow Privileged Containers
     policies.kyverno.io/category: Pod Security Standards (Baseline)

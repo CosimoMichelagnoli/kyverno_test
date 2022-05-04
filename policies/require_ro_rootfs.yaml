@@ -2,7 +2,6 @@ apiVersion: kyverno.io/v1
 kind: Policy
 metadata:
   name: require-ro-rootfs
-  namespace: sandbox-s123456
   annotations:
     policies.kyverno.io/title: Require Read-Only Root Filesystem
     policies.kyverno.io/category: Best Practices

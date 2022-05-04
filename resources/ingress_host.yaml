@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: cafe-ingress
+  namespace: sandbox-s123456
   annotations:
     nginx.org/rewrites: "serviceName=nginx-lb rewrite=/;serviceName=http-lb rewrite=/"
 spec:

@@ -1,5 +1,5 @@
 apiVersion: kyverno.io/v1
-kind: ClusterPolicy
+kind: Policy
 metadata:
   name: no-loadbalancer-service
   annotations:
@@ -14,7 +14,7 @@ metadata:
       overrun established budgets and security practices set by the organization. This policy restricts
       use of the Service type LoadBalancer.      
 spec:
-  validationFailureAction: audit
+  validationFailureAction: enforce
   background: true
   rules:
   - name: no-LoadBalancer
