@@ -1,5 +1,5 @@
 apiVersion: kyverno.io/v1
-kind: Policy
+kind: ClusterPolicy
 metadata:
   name: restricted-host-ingress
 spec:
@@ -10,9 +10,12 @@ spec:
       resources:
         kinds:
         - Ingress
+        namespaceSelector:
+          matchLabels:
+            name: "sandbox-s*"
     validate:
       message: "The host name must be in this form sxxxxxx.sandbox.crownlabs.polito.it."
       pattern:
         spec:
           rules:
-          - host: "s*.sandbox.crownlabs.polito.it"
+          - host: "s??????.sandbox.crownlabs.polito.it"

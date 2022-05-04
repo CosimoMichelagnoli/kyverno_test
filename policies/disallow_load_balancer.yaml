@@ -1,5 +1,5 @@
 apiVersion: kyverno.io/v1
-kind: Policy
+kind: ClusterPolicy
 metadata:
   name: no-loadbalancer-service
   annotations:
@@ -22,6 +22,9 @@ spec:
       resources:
         kinds:
         - Service
+        namespaceSelector:
+          matchLabels:
+            name: "sandbox-s*"
     validate:
       message: "Service of type LoadBalancer is not allowed."
       pattern:

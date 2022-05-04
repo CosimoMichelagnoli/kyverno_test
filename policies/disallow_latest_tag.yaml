@@ -1,5 +1,5 @@
 apiVersion: kyverno.io/v1
-kind: Policy
+kind: ClusterPolicy
 metadata:
   name: disallow-latest-tag
   annotations:
@@ -22,6 +22,9 @@ spec:
         kinds:
         - Deployment
         - Pod
+        namespaceSelector:
+          matchLabels:
+            name: "sandbox-s*"
     validate:
       message: "An image tag is required."
       pattern:

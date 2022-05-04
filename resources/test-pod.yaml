@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: mypod
-  namespace: default
+  namespace: sandbox-s123456
   labels:
     name: mypod
 spec:
@@ -10,8 +10,9 @@ spec:
   - name: mypod
     image: nginx
     securityContext:
-      privileged: false
+      privileged: true
       readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
   securityContext:
-    runAsNonRoot: false
+    runAsNonRoot: true
 

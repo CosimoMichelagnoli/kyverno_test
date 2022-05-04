@@ -1,5 +1,5 @@
 apiVersion: kyverno.io/v1
-kind: Policy
+kind: ClusterPolicy
 metadata:
   name: disallow-empty-ingress-host
   annotations:
@@ -20,6 +20,9 @@ spec:
         resources:
           kinds:
             - Ingress
+          namespaceSelector:
+            matchLabels:
+              name: "sandbox-s*"
       validate:
         message: "The Ingress host name must be defined, not empty."
         deny:

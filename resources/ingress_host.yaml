@@ -7,7 +7,7 @@ metadata:
     nginx.org/rewrites: "serviceName=nginx-lb rewrite=/;serviceName=http-lb rewrite=/"
 spec:
   rules:
-  - host: s000000.sandbox.crownlabs.polito.it
+  - host: s123.sandbox.crownlabs.polito.it
     http:
       paths:
       - path: /tea/
