@@ -1,0 +1,60 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: role
+spec:
+  rules:
+  - name: role
+    match:
+      resources:
+        kinds:
+        - Namespace
+    exclude:
+      resources:
+        namespaces:
+        - "kube-system"
+        - "default"
+        - "kube-public"
+        - "kyverno"
+    generate:
+      kind: Role
+      name: pod-reader
+      namespace: "{{request.object.metadata.name}}"
+      data:  
+        rules:
+          - apiGroups: [""] # "" indicates the core API group
+            resources: ["pods"]
+            verbs: ["get", "watch", "list"]
+---
+# rolebinding-policy.yaml
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: rolebinding
+spec:
+  rules:
+  - name: rolebinding
+    match:
+      resources:
+        kinds:
+        - Namespace
+    exclude:
+      resources:
+        namespaces:
+        - "kube-system"
+        - "default"
+        - "kube-public"
+        - "kyverno"
+    generate:
+      kind: RoleBinding
+      name: read-pods
+      namespace: "{{request.object.metadata.name}}"
+      data:  
+        subjects:
+          - kind: User
+            name: "{{request.object.metadata.labels.user}}"
+            apiGroup: rbac.authorization.k8s.io
+        roleRef:
+          kind: Role
+          name: pod-reader
+          apiGroup: rbac.authorization.k8s.io
