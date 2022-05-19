@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: cafe-ingress
+  namespace: sandbox-s111000
+  annotations:
+    nginx.org/rewrites: "serviceName=nginx-lb rewrite=/;serviceName=http-lb rewrite=/"
+spec:
+  rules:
+  - host: s111000.sandbox.crownlabs.polito.it
+    http:
+      paths:
+      - path: /tea/
+        backend:
+          serviceName: nginx-lb
+          servicePort: 80
+      - path: /coffee/
+        backend:
+          serviceName: http-lb
+          servicePort: 80

@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: cafe
+  annotations:
+    nginx.org/rewrites: "serviceName=nginx-lb rewrite=/;serviceName=http-lb rewrite=/"
+spec:
+  rules:
+  - host: marameo
+    http:
+      paths:
+      - path: /tea/
+        backend:
+          serviceName: nginx-lb
+          servicePort: 80
+      - path: /coffee/
+        backend:
+          serviceName: http-lb
+          servicePort: 80
